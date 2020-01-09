@@ -1,0 +1,28 @@
+---
+- name: Configure Directory Server for Master
+  hosts: all
+  gather_facts: no
+  tasks:
+
+
+    - name: create user
+      ldap_entry:
+        server_uri: ldap://localhost
+        bind_dn: "cn=Directory Manager"
+        bind_pw: changeme
+        dn: cn="user{{ item }}",ou=people,dc=example,dc=com
+        objectClass:
+          - nsAccount
+          - nsOrgPerson
+          - nsPerson
+          - posixAccount
+        attributes:
+          uidNumber: "{{ item }}"
+          uid: "user{{ item }}"
+          gidNumber: "{{ item }}"
+          displayName: "user{{ item }}"
+          cn: "user{{ item }}"
+          legalName: "user{{ item }}"
+          homeDirectory: "/home/{{ item }}"
+          userPassword: changeme
+      with_sequence: start="{{ start_number }}" count="{{ count }}"

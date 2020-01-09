@@ -1,0 +1,18 @@
+---
+- name: Configure Directory Server non-master
+  hosts: all
+  gather_facts: no
+  tasks:
+
+    - name: Copy INF File
+      copy:
+        src: files/example_com.inf
+        dest: /root/example_com.inf
+      
+    - name: Create DS Instance
+      command: dscreate from-file /root/example_com.inf
+
+    - name: Enable Replication
+      command: dsconf -D "cn=Directory Manager" -w changeme ldap://localhost replication enable --suffix="dc=example,dc=com" --role="hub" --bind-dn="cn=replication manager,cn=config" --bind-passwd="changeme"
+
+

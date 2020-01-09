@@ -1,0 +1,17 @@
+---
+- name: Set Replication Agreement
+  hosts: all
+  gather_facts: no
+  tasks:
+
+    - name: Create replication agreement
+      command: dsconf -D "cn=Directory Manager" -w changeme ldap://localhost repl-agmt create --suffix="dc=example,dc=com" --host="{{ item }}" --port=389 --conn-protocol=LDAP --bind-dn="cn=replication manager,cn=config" --bind-passwd="changeme" --bind-method=SIMPLE --init example-agreement-"{{ dns_name }}"---"{{ item }}"
+      with_items: "{{ replicate_to }}"
+
+
+      
+      
+      
+     
+      
+     

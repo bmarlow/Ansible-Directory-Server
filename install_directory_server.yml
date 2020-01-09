@@ -1,0 +1,15 @@
+---
+- name: Install Directory Server and enable Cockpit
+  hosts: all
+  gather_facts: no
+  tasks:
+
+    - name: Install Directory Server
+      dnf:
+        name: '@redhat-ds:11'
+        state: present
+
+    - name: start cockpit
+      service:
+        name: cockpit
+        state: started

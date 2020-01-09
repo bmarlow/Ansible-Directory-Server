@@ -1,0 +1,37 @@
+---
+- name: Configure Directory Server for Master
+  hosts: all
+  gather_facts: no
+  tasks:
+
+    - name: Copy INF file
+      copy:
+        src: files/example_com.inf
+        dest: /root/example_com.inf
+
+    - name: Create DS Instance
+      command: dscreate from-file /root/example_com.inf
+
+    - name: Enable Replication for Master
+      command: dsconf -D "cn=Directory Manager" -w changeme ldap://localhost replication enable --suffix="dc=example,dc=com" --role="master" --replica-id="{{ replication_id }}" --bind-dn="cn=replication manager,cn=config" --bind-passwd="changeme"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+      
+      
+     
+      
+     

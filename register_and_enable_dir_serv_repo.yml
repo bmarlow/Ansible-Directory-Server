@@ -1,0 +1,21 @@
+---
+- name: Register Hosts with Red Hat
+  hosts: all
+  tasks:
+
+    - name: REGISTER RHN
+      redhat_subscription:
+        username: "{{ rhn_username }}"
+        password: "{{ rhn_password }}"
+        pool_ids:
+          - "{{ rhn_sku_pool_id }}"
+    - name: enable appropriate repos
+      rhsm_repository:
+        name: dirsrv-11-for-rhel-8-x86_64-rpms
+        state: enabled
+    - name: reset root password
+      user:
+        name: root
+        password: "$6$mysecretsalt$3WvOptRoaE2hzq.BfdChKztJX9qXbXR/swFAwYvZ8m9c7RktIbFrJfbaRJYNCUdP0B5Ubk3m2YHPq9tG4ds581"
+
+
